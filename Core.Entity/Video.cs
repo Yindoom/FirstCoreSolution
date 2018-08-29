@@ -1,6 +1,6 @@
-﻿namespace ConsoleApp2
+﻿namespace TwoPersonTango.Core.Entity
 {
-    class Video
+    public class Video
     {
         public string Title { get; set; }
         public int Rating { get; set; }

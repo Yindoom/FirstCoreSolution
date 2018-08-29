@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using TwoPersonTango.Core;
+using TwoPersonTango.Core.ApplicationService;
+using TwoPersonTango.Core.DomainService;
+using TwoPersonTango.Core.Entity;
+using TwoPersonTango.Infrastructure.Static.Data.Repositories;
 
-namespace ConsoleApp2
+namespace TwoPersonTango
 {
     class Program
     {
-        private static List<Video> Videos = new List<Video>();
-
+        private static IVideoService _videoService;
         static void Main(string[] args)
         {
-            SetVideos(Videos);
+            _videoService = new VideoService();
             DisplayMain();
         }
-
+        #region Program
         private static void DisplayMain()
         {
             Console.WriteLine("Choose action: \n\n1. List Videos \n2. Add Video \n3. Update Video \n4. Delete Video \n5. Exit");
@@ -120,18 +124,15 @@ namespace ConsoleApp2
         private static void AddVideo()
         {
             Console.Clear();
-            Video video = new Video();
+            
             Console.WriteLine("Please write the title of the video you want to add: ");
-            video.Title = Console.ReadLine();
+            string title = Console.ReadLine();
             Console.WriteLine("Please type the rating, as a number: ");
             int rating;
             while(!int.TryParse(Console.ReadLine(), out rating))
             {
                 Console.WriteLine("Please write a number");
             }
-            video.Rating = rating;
-            video.Id = Videos.Count;
-            Videos.Add(video);
             Console.WriteLine($"{video.Title} has been added to the list. Press enter to exit...");
             Console.ReadLine();
             Console.Clear();
@@ -141,7 +142,7 @@ namespace ConsoleApp2
         private static void ShowVideos()
         {
             Console.WriteLine("Videos: ");
-            foreach (var video in Videos)
+            foreach (var video in _videoService.GetVideos)
             {
                 Console.WriteLine("{0} - {1} \nRating: {2}", video.Id+1, video.Title, video.Rating);
             }
@@ -173,3 +174,4 @@ namespace ConsoleApp2
         }
     }
 }
+#endregion
